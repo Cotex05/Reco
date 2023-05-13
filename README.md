@@ -9,7 +9,7 @@ Provide a possible solution and approach to reduce this underlying intermediate 
 
 ## Tech-Stack Used:
 
-### Front-End : React JS, HTML, CSS
+### Front-End : React JS, HTML, CSS, BootStrap
 ### Back-End : Node.JS
-### Database : MYSQL( Using Xampp or SQL Workbench)
+### Database : MYSQL Server(Using Xampp or SQL Workbench)
 
