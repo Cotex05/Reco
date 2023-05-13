@@ -2,34 +2,48 @@ import React, { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import "./index.css";
 import { login } from "../../api/index";
+import { useNavigate } from "react-router-dom";
+
+import {getLoggedInUser, isUserLoggedIn } from "../../api/index"
 export default function Login() {
+  const user = getLoggedInUser()
   const [loginFormData, setLoginFormData] = useState({});
-  const handleLoginFormChange = (field) => (value) => {
-    setLoginFormData({ ...loginFormData, [field]: value });
+  const navigate = useNavigate()
+  const handleLoginFormChange = (field) => (e) => {
+    setLoginFormData({ ...loginFormData, [field]: e.target.value });
   };
-  const handleLogin = (formData) => {
-    login(formData);
+  const handleLogin = async (formData) => {
+    const response = await login(formData);
+    if(response.success) {
+      if(user.is_admin){
+        navigate("/officer-panel")
+      }else {
+        navigate(`/department`)
+      }
+    }
   };
+  console.log("=====loginFormData", loginFormData)
   return (
     <Container className="login-form">
-      <Form>
-        <Form.Group className="mb-3">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
+        <div className="mb-3">
+          <div className="form-label">Email</div>
+          <input
             type="text"
-            placeholder="Enter email"
             onChange={handleLoginFormChange("email")}
+            value={loginFormData.email || ""}
+            className="form-control"
           />
-          <Form.Text className="text-muted"></Form.Text>
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
+        </div>
+        <div className="mb-3">
+          <div className="form-label">Password</div>
+          <input
             type="password"
             placeholder="Enter password"
             onChange={handleLoginFormChange("password")}
+            value={loginFormData.password || ""}
+            className="form-control"
           />
-        </Form.Group>
+        </div>
         <Button
           variant="primary"
           type="submit"
@@ -37,7 +51,6 @@ export default function Login() {
         >
           Login
         </Button>
-      </Form>
     </Container>
   );
 }

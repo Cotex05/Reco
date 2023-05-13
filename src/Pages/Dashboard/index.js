@@ -2,13 +2,21 @@ import React from "react";
 import Officerpanel from "./OfficerPanel";
 import Userpanel from "./UserPanel";
 import Login from "../Login";
-import {getLoggedInUser, isUserLoggedIn } from "../../api/index"
+import { getLoggedInUser, isUserLoggedIn } from "../../api/index";
 
-export default function Dashboard({ is_admin}) {
-  
-  const user = getLoggedInUser()
-  const isLoggedIn = isUserLoggedIn(user)
-  if(!isLoggedIn) return  <Login />
-  if(is_admin) return <Officerpanel />;
-  return <Userpanel />; 
+import {
+  BrowserRouter as Router,
+  Routes as Switch,
+  Route,
+} from "react-router-dom";
+export default function Dashboard({ is_admin }) {
+  return (
+    <Router>
+      <Switch>
+          <Route path="/department" element={<Userpanel />} />
+          <Route path="/officer-panel" element={<Officerpanel />} />
+          <Route path="/" element={<Login />} />
+      </Switch>
+    </Router>
+  );
 }
