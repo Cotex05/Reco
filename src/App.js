@@ -1,13 +1,14 @@
-import { Button, Form } from "react-bootstrap";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./Pages/Login";
 import Dashboard from "./Pages/Dashboard";
-
+import {getLoggedInUser, isUserLoggedIn } from "./api/index"
 function App() {
-  const login = true;
-
-  return <>{login ? <Dashboard panel={1} /> : <Login />}</>;
+  const user = getLoggedInUser()
+  const isLoggedIn = isUserLoggedIn(user)
+  console.log("=====", {user,isLoggedIn })
+  if(!isLoggedIn) return  <Login />
+  return <Dashboard isAdmin={user.is_admin} department={user.department} />;
 }
 
 export default App;

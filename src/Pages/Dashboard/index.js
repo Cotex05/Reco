@@ -1,11 +1,14 @@
 import React from "react";
 import Officerpanel from "./OfficerPanel";
 import Userpanel from "./UserPanel";
-import Adminpanel from "./AdminPanel";
+import Login from "../Login";
+import {getLoggedInUser, isUserLoggedIn } from "../../api/index"
 
-export default function Dashboard({ panel = 0 }) {
-  if (panel === 0) return <Userpanel />;
-  else if (panel === 1) return <Officerpanel />;
-  else if (panel === 3) return <Adminpanel />;
-  else return <h1>Error: No Access</h1>;
+export default function Dashboard({ is_admin}) {
+  
+  const user = getLoggedInUser()
+  const isLoggedIn = isUserLoggedIn(user)
+  if(!isLoggedIn) return  <Login />
+  if(is_admin) return <Officerpanel />;
+  return <Userpanel />; 
 }
