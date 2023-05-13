@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import "./index.css";
 import { login } from "../../api/index";
+
 export default function Login() {
-  const [loginFormData, setLoginFormData] = useState({});
-  const handleLoginFormChange = (field) => (value) => {
-    setLoginFormData({ ...loginFormData, [field]: value });
-  };
-  const handleLogin = (formData) => {
-    login(formData);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = (e) => {
+    login({ email: email, password: password });
   };
   return (
     <Container className="login-form">
@@ -18,7 +18,7 @@ export default function Login() {
           <Form.Control
             type="text"
             placeholder="Enter email"
-            onChange={handleLoginFormChange("email")}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <Form.Text className="text-muted"></Form.Text>
         </Form.Group>
@@ -27,14 +27,10 @@ export default function Login() {
           <Form.Control
             type="password"
             placeholder="Enter password"
-            onChange={handleLoginFormChange("password")}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Button
-          variant="primary"
-          type="submit"
-          onClick={() => handleLogin(loginFormData)}
-        >
+        <Button variant="primary" type="submit" onClick={(e) => handleLogin(e)}>
           Login
         </Button>
       </Form>
